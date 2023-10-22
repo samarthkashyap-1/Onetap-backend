@@ -5,6 +5,7 @@ const mongoose = require("mongoose");
 const users = require("./controllers/users")
 const profiles = require("./controllers/profiles") 
 const login = require("./controllers/login")
+const userRouter = require("./controllers/getuser")
  const router = express.Router()
 app.use(express.json())
 require("dotenv").config()
@@ -36,97 +37,9 @@ app.use(Mymiddleware)
 app.use("/user", users)
 app.use("/profiles", profiles)
 app.use("/login", login)
+app.use("/",userRouter)
 
 
-// user.save().then((result) => {
-//   console.log("note saved!");
-//   mongoose.connection.close();
-// })
-
-
-
-
-
-// app.get("/user", (req, res) => {
-//       const id = req.params.id;
-//       User.find({}).then((note) => {
-//           res.json(note);
-//         });
-//       });
-
-//     app.get("/profiles", (req, res) => {
-//         const id = req.params.id;
-//         Profile.find({}).then((note) => {
-//             res.json(note);
-//         });
-//     }
-// )
-//     app.get("/profile/:id", (req, res) => {
-//         const id = req.params.id;
-//         Profile.find({id:id}).then((note) => {
-//             if(note.length>0){
-//                 res.json(note);
-//             }
-//             else{
-//             res.status(404).send("Not Found");
-//             }
-//         }
-//     );
-//     }
-// )
-
-// app.patch("/profiles/:id", (req, res) => {
-
-//     const id = req.params.id;
-//     const body = req.body;
-//     Profile.findOneAndUpdate({id:id},body,{new:true}).then((result) => {
-//         res.json(result);
-//     });
-//     }
-    
-// )
-
-        
-// app.post("/user", (req, res) => {
-//   const body = req.body;
-//   const user = new User({
-//     name: body.name,
-//     email: body.email,
-//     password: body.password,
-//     Cpassword: body.Cpassword,
-//     id: shortid.generate(),
-//   });
-
-//   user
-//     .save()
-//     .then((result) => {
-//       console.log("User saved!");
-//       res.json(result);
-//     })
-//     .catch((err) => {
-//       console.error("User save error:", err);
-//       res.status(400).json({ error: err.message }); // Return the error message
-//     });
-// });
-
-
-// app.post("/profiles", (req, res) => {
-//     const body = req.body;
-//     const profile = new Profile({
-//         username: body.username,
-//         avatar: body.avatar,
-//         email: body.email,
-//         links: body.links,
-//         card: body.card,
-//         id: shortid.generate(),
-//     });
-//     profile.save().then((result) => {
-//         console.log("profile saved!");
-//     });
-//     console.log(body);
-//     res.json(body);
-//     }
-// )
 
 
 

@@ -16,8 +16,17 @@ profileRoute.get('/:id', async (req, res) => {
     }
 }
 );
+profileRoute.get('/:email', async (req, res) => {
+    const profile = await Profile.findOne({ username: req.params.username });
+    if (profile) {
+        res.json(profile);
+    } else {
+        res.status(404).end();
+    }
+}
+);
 
-profileRoute.patch("/:id", (req, res) => {
+profileRoute.put("/:id", (req, res) => {
   const id = req.params.id;
   const body = req.body;
   Profile.findOneAndUpdate({ id: id }, body, { new: true }).then((result) => {

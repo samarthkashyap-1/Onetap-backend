@@ -1,6 +1,11 @@
 const userRouter = require('express').Router();
 const User = require('../models/user');
 const shortid = require("shortid");
+const bcrypt = require("bcrypt");
+
+const saltRounds = 10;
+
+
 
 userRouter.get('/', async (req, res) => {
     const users = await User.find({});
@@ -8,26 +13,28 @@ userRouter.get('/', async (req, res) => {
 }
 );
 
-userRouter.post("/", (req, res) => {
-  const body = req.body;
+userRouter.post("/", async (req, res) => {
+try {
+    const body = req.body;
+
+  hashpass = await bcrypt.hash(body.password, saltRounds);
+
   const user = new User({
     name: body.name,
     email: body.email,
-    password: body.password,
-    Cpassword: body.Cpassword,
+    password: hashpass, 
     id: shortid.generate(),
   });
+  
+  result = await user.save();
+  res.status(201).json(result);
+  console.log(user);
+  
+} catch (error) {
+   console.error("User save error:", err);
+      res.status(400).json({ error: err.message });
+}
 
-  user
-    .save()
-    .then((result) => {
-      console.log("User saved!");
-      res.json(result);
-    })
-    .catch((err) => {
-      console.error("User save error:", err);
-      res.status(400).json({ error: err.message }); // Return the error message
-    });
 });
 
 
