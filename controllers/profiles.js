@@ -2,39 +2,42 @@ const profileRoute = require('express').Router();
 const Profile = require('../models/profile');
 const User = require('../models/user');
 const shortid = require("shortid");
+
+const {verifyAccessToken} = require("../helper/jwt_helper")
+
+
 profileRoute.get('/', async (req, res) => {
     const profiles = await Profile.find({});
     res.json(profiles);
 });
 
-profileRoute.get('/:id', async (req, res) => {
-    const profile = await Profile.findOne({ id: req.params.id });
-    if (profile) {
-        res.json(profile);
-    } else {
-        res.status(404).end();
-    }
-}
-);
-profileRoute.get('/:email', async (req, res) => {
-    const profile = await Profile.findOne({ username: req.params.username });
-    if (profile) {
-        res.json(profile);
-    } else {
-        res.status(404).end();
-    }
-}
-);
 
-profileRoute.put("/:id", (req, res) => {
-  const id = req.params.id;
-  const body = req.body;
-  Profile.findOneAndUpdate({ id: id }, body, { new: true }).then((result) => {
-    res.json(result);
-  });
+profileRoute.get("/user", verifyAccessToken,async (req, res) => {
+  const users = await Profile.find({});
+  res.json(users);
 });
 
-profileRoute.post("/", (req, res) => {
+
+
+
+profileRoute.put("/:id",verifyAccessToken,async (req, res) => {
+ try {
+   const id = req.params.id;
+   const body = req.body;
+   const result = await Profile.findOneAndUpdate({ id: id }, body, { new: true })
+   res.json(result)
+  //  const user = await Profile.findOne({ id: id });
+  //  console.log(user);
+  //  res.send(user)
+  
+ } catch (error) {
+  console.log(error)
+ }
+  
+});
+
+
+profileRoute.post("/", verifyAccessToken,async (req, res) => {
   const body = req.body;
   const profile = new Profile({
     username: body.username,
@@ -50,5 +53,14 @@ profileRoute.post("/", (req, res) => {
   console.log(body);
   res.json(body);
 });
+
+// profileRoute.get("/secure", async (req, res)=>{
+//   const users = await User.find({})
+//   res.json(users)
+// })
+
+
+
+
 
 module.exports = profileRoute;

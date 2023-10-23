@@ -6,7 +6,8 @@ const users = require("./controllers/users")
 const profiles = require("./controllers/profiles") 
 const login = require("./controllers/login")
 const userRouter = require("./controllers/getuser")
- const router = express.Router()
+const resetPass = require("./controllers/resetpass")
+const Contactus = require("./controllers/contactus")
 app.use(express.json())
 require("dotenv").config()
 const cors = require("cors")
@@ -38,6 +39,8 @@ app.use("/user", users)
 app.use("/profiles", profiles)
 app.use("/login", login)
 app.use("/",userRouter)
+app.use("/resetpassword",resetPass)
+app.use("/contactus", Contactus)
 
 
 
