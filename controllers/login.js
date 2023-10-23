@@ -51,7 +51,7 @@ id: user.id
 }
 const secret = process.env.ACCESS_TOKEN_SECRET + user.password; 
   const resettoken = jwt.sign(payload,secret,{
-    expiresIn: "15m"
+    expiresIn: "10m"
   });
 
   // const encode = encodeURIComponent(resettoken)
