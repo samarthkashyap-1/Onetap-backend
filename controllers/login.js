@@ -54,9 +54,9 @@ const secret = process.env.ACCESS_TOKEN_SECRET + user.password;
     expiresIn: "15m"
   });
 
-  const encode = encodeURIComponent(resettoken)
+  // const encode = encodeURIComponent(resettoken)
  
-  const link = `https://onetap-jet.vercel.app/resetpassword/${user.id}/${encode}`;
+  const link = `https://onetap-jet.vercel.app/resetpassword/${user.id}/${resettoken}`;
 
  var mailOptions = {
    from: `ONETAP <pressfishere@gmail.com>`,
