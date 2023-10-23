@@ -56,7 +56,7 @@ const secret = process.env.ACCESS_TOKEN_SECRET + user.password;
 
   const encode = encodeURIComponent(resettoken)
  
-  const link = `http://localhost:5173/resetpassword/${user.id}/${encode}`;
+  const link = `https://onetap-jet.vercel.app/resetpassword/${user.id}/${encode}`;
 
  var mailOptions = {
    from: `ONETAP <pressfishere@gmail.com>`,
