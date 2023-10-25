@@ -1,10 +1,17 @@
 const loginRouter = require('express').Router()
+const fs = require("fs");
 const User = require('../models/user')
 const bcrypt = require("bcrypt");
 const {signAccessToken, verifyAccessToken} = require('../helper/jwt_helper');
 const jwt = require("jsonwebtoken")
+const path = require("path")
 
 const transporter = require("../config/nodemail")
+
+const emailTemplatePath = path.join(__dirname, "emailtemp.html");
+
+// Read the HTML email template from the file
+const emailTemplate = fs.readFileSync(emailTemplatePath, "utf-8")
 
 
 
@@ -57,15 +64,13 @@ const secret = process.env.ACCESS_TOKEN_SECRET + user.password;
   // const encode = encodeURIComponent(resettoken)
  
   const link = `https://onetap-jet.vercel.app/resetpassword/${user.id}/${resettoken}`;
+  const emailTemplateCopy = emailTemplate.replace("{{RESET_LINK}}", link);
 
  var mailOptions = {
    from: `ONETAP <pressfishere@gmail.com>`,
    to: `${user.email}`,
    subject: "Password Reset Link",
-   html: `<h1>Password Reset for ONETAP account</h1> <span>To change password</span>
-   <a href=${link} >Click here </a>  
-   <p>Link will be valid for 10 minutes only</p>
-   `,
+   html: emailTemplateCopy,
  };
 
 transporter.sendMail(mailOptions, function (error, info) {
