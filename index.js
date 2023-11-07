@@ -10,8 +10,10 @@ const resetPass = require("./controllers/resetpass")
 const Contactus = require("./controllers/contactus")
 app.use(express.json())
 require("dotenv").config()
-const cors = require("cors")
+const cors = require("cors");
+const morgan = require("morgan");
 app.use(cors())
+app.use(morgan("dev"))
 
 
 
