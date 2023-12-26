@@ -35,6 +35,10 @@ const Mymiddleware = (req, res, next) => {
     next();
 }
 
+app.get("/cronservice", (req, res) => {
+    res.send("Hello World!")
+}
+)
 
 app.use(Mymiddleware)
 app.use("/user", users)
@@ -46,10 +50,6 @@ app.use("/contactus", Contactus)
 
 
 
-app.get("/cornservice", (req, res) => {
-    res.send("Hello World!")
-}
-)
 
 app.listen(port, () => {
     console.log(`Example app listening at http://localhost:${port}`)
