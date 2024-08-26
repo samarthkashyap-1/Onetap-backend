@@ -10,9 +10,23 @@ const resetPass = require("./controllers/resetpass")
 const Contactus = require("./controllers/contactus")
 app.use(express.json())
 require("dotenv").config()
-const cors = require("cors");
 const morgan = require("morgan");
-app.use(cors())
+const cors = require("cors");
+
+const allowedOrigins = ['https://onetap-jet.vercel.app'];
+
+const corsOptions = {
+  origin: function (origin, callback) {
+    if (allowedOrigins.includes(origin) || !origin) {
+      callback(null, true);
+    } else {
+      callback(new Error('Not allowed by CORS'));
+    }
+  },
+  credentials: true, // If you need to support cookies or other credentials
+};
+
+app.use(cors(corsOptions));
 app.use(morgan("dev"))
 
 
